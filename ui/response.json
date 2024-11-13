@@ -1,0 +1,79 @@
+{
+    "models": [
+        {
+            "classname": "Sport",
+            "code": "class Sport(Base):\n    __tablename__ = 'sports'\n    \n    \"\"\"description: Table to store different sports\"\"\"\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    name = Column(String, nullable=False)\n    equipment_needed = Column(String)\n    team_based = Column(Boolean, default=False)\n",
+            "description": "Table to store different sports",
+            "name": "Sport"
+        },
+        {
+            "classname": "Athlete",
+            "code": "class Athlete(Base):\n    __tablename__ = 'athletes'\n    \n    \"\"\"description: Table for storing athlete information\"\"\"\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    first_name = Column(String, nullable=False)\n    last_name = Column(String, nullable=False)\n    date_of_birth = Column(Date)\n    nationality = Column(String)\n",
+            "description": "Table for storing athlete information",
+            "name": "Athlete"
+        },
+        {
+            "classname": "Team",
+            "code": "class Team(Base):\n    __tablename__ = 'teams'\n    \n    \"\"\"description: Table for storing team details\"\"\"\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    name = Column(String, nullable=False)\n    sport_id = Column(Integer, ForeignKey('sports.id'))\n    founding_date = Column(Date)\n",
+            "description": "Table for storing team details",
+            "name": "Team"
+        },
+        {
+            "classname": "Match",
+            "code": "class Match(Base):\n    __tablename__ = 'matches'\n\n    \"\"\"description: Table for storing match information\"\"\"\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    date = Column(Date, nullable=False)\n    location = Column(String)\n    sport_id = Column(Integer, ForeignKey('sports.id'))\n",
+            "description": "Table for storing match information",
+            "name": "Match"
+        },
+        {
+            "classname": "Performance",
+            "code": "class Performance(Base):\n    __tablename__ = 'performances'\n\n    \"\"\"description: Table for storing athlete performance in different matches\"\"\"\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    athlete_id = Column(Integer, ForeignKey('athletes.id'))\n    match_id = Column(Integer, ForeignKey('matches.id'))\n    score = Column(Integer)\n    assists = Column(Integer)\n    penalties = Column(Integer)\n    performance_date = Column(Date)\n",
+            "description": "Table for storing athlete performance in different matches",
+            "name": "Performance"
+        },
+        {
+            "classname": "League",
+            "code": "class League(Base):\n    __tablename__ = 'leagues'\n\n    \"\"\"description: Table to store league details\"\"\"\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    name = Column(String, nullable=False)\n    description = Column(String)\n    establishment_year = Column(Integer)\n",
+            "description": "Table to store league details",
+            "name": "League"
+        },
+        {
+            "classname": "Registration",
+            "code": "class Registration(Base):\n    __tablename__ = 'registrations'\n\n    \"\"\"description: Table for athletes' registrations in different leagues\"\"\"\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    athlete_id = Column(Integer, ForeignKey('athletes.id'))\n    league_id = Column(Integer, ForeignKey('leagues.id'))\n    registration_date = Column(Date, nullable=False)\n",
+            "description": "Table for athletes' registrations in different leagues",
+            "name": "Registration"
+        },
+        {
+            "classname": "Sponsor",
+            "code": "class Sponsor(Base):\n    __tablename__ = 'sponsors'\n\n    \"\"\"description: Table for storing sponsor information\"\"\"\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    name = Column(String, nullable=False)\n    contact_info = Column(String)\n    budget = Column(Integer)\n",
+            "description": "Table for storing sponsor information",
+            "name": "Sponsor"
+        },
+        {
+            "classname": "Sponsorship",
+            "code": "class Sponsorship(Base):\n    __tablename__ = 'sponsorships'\n\n    \"\"\"description: Table for storing details about sponsorships for different teams\"\"\"\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    sponsor_id = Column(Integer, ForeignKey('sponsors.id'))\n    team_id = Column(Integer, ForeignKey('teams.id'))\n    start_date = Column(Date, nullable=False)\n    end_date = Column(Date)\n    amount = Column(Integer)\n",
+            "description": "Table for storing details about sponsorships for different teams",
+            "name": "Sponsorship"
+        },
+        {
+            "classname": "Player",
+            "code": "class Player(Base):\n    __tablename__ = 'players'\n\n    \"\"\"description: Table for linking athletes to the teams they play for\"\"\"\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    athlete_id = Column(Integer, ForeignKey('athletes.id'))\n    team_id = Column(Integer, ForeignKey('teams.id'))\n    join_date = Column(Date)\n",
+            "description": "Table for linking athletes to the teams they play for",
+            "name": "Player"
+        },
+        {
+            "classname": "Coach",
+            "code": "class Coach(Base):\n    __tablename__ = 'coaches'\n\n    \"\"\"description: Table for storing information about team coaches\"\"\"\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    first_name = Column(String, nullable=False)\n    last_name = Column(String, nullable=False)\n    birth_date = Column(Date)\n    team_id = Column(Integer, ForeignKey('teams.id'))\n",
+            "description": "Table for storing information about team coaches",
+            "name": "Coach"
+        },
+        {
+            "classname": "Event",
+            "code": "class Event(Base):\n    __tablename__ = 'events'\n\n    \"\"\"description: Table for storing information about special sporting events\"\"\"\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    name = Column(String, nullable=False)\n    date = Column(Date, nullable=False)\n    location = Column(String)\n    sport_id = Column(Integer, ForeignKey('sports.id'))\n",
+            "description": "Table for storing information about special sporting events",
+            "name": "Event"
+        }
+    ],
+    "rules": [],
+    "test_data": "# Create test data for each table separately\n\n# Sport Test Data\nsport1 = Sport(name=\"Football\", equipment_needed=\"Ball, Goalposts\", team_based=True)\nsport2 = Sport(name=\"Basketball\", equipment_needed=\"Ball, Basket\", team_based=True)\nsport3 = Sport(name=\"Tennis\", equipment_needed=\"Racket, Ball\", team_based=False)\nsport4 = Sport(name=\"Swimming\", equipment_needed=\"Goggles, Swimsuit\", team_based=False)\n\n# Athlete Test Data\nathlete1 = Athlete(first_name=\"John\", last_name=\"Doe\", date_of_birth=date(1990, 7, 14), nationality=\"USA\")\nathlete2 = Athlete(first_name=\"Lucy\", last_name=\"Smith\", date_of_birth=date(1992, 1, 19), nationality=\"UK\")\nathlete3 = Athlete(first_name=\"Marco\", last_name=\"Polo\", date_of_birth=date(1988, 5, 23), nationality=\"Italy\")\nathlete4 = Athlete(first_name=\"Juan\", last_name=\"Carlos\", date_of_birth=date(1985, 11, 30), nationality=\"Spain\")\n\n# Team Test Data\nteam1 = Team(name=\"Eagles\", sport_id=1, founding_date=date(1980, 2, 5))\nteam2 = Team(name=\"Hawks\", sport_id=2, founding_date=date(1990, 6, 15))\nteam3 = Team(name=\"Wolves\", sport_id=3, founding_date=date(1995, 9, 10))\nteam4 = Team(name=\"Sharks\", sport_id=4, founding_date=date(2000, 3, 20))\n\n# Match Test Data\nmatch1 = Match(date=date(2023, 8, 12), location=\"Stadium A\", sport_id=1)\nmatch2 = Match(date=date(2023, 9, 18), location=\"Arena B\", sport_id=2)\nmatch3 = Match(date=date(2023, 10, 24), location=\"Court C\", sport_id=3)\nmatch4 = Match(date=date(2023, 11, 30), location=\"Pool D\", sport_id=4)\n\n# Performance Test Data\nperformance1 = Performance(athlete_id=1, match_id=1, score=10, assists=2, penalties=0, performance_date=date(2023, 8, 12))\nperformance2 = Performance(athlete_id=2, match_id=2, score=15, assists=3, penalties=1, performance_date=date(2023, 9, 18))\nperformance3 = Performance(athlete_id=3, match_id=3, score=0, assists=5, penalties=2, performance_date=date(2023, 10, 24))\nperformance4 = Performance(athlete_id=4, match_id=4, score=20, assists=1, penalties=0, performance_date=date(2023, 11, 30))\n\n# League Test Data\nleague1 = League(name=\"Champions League\", description=\"Annual international competition\", establishment_year=1992)\nleague2 = League(name=\"World Cup\", description=\"Global international tournament\", establishment_year=1930)\nleague3 = League(name=\"National League\", description=\"Country-based competition\", establishment_year=1888)\nleague4 = League(name=\"Olympics\", description=\"Worldwide quadrennial event\", establishment_year=1896)\n\n# Registration Test Data\nregistration1 = Registration(athlete_id=1, league_id=1, registration_date=date(2023, 5, 1))\nregistration2 = Registration(athlete_id=2, league_id=2, registration_date=date(2023, 5, 2))\nregistration3 = Registration(athlete_id=3, league_id=3, registration_date=date(2023, 5, 3))\nregistration4 = Registration(athlete_id=4, league_id=4, registration_date=date(2023, 5, 4))\n\n# Sponsor Test Data\nsponsor1 = Sponsor(name=\"Nike\", contact_info=\"nike@company.com\", budget=1000000)\nsponsor2 = Sponsor(name=\"Adidas\", contact_info=\"adidas@company.com\", budget=1200000)\nsponsor3 = Sponsor(name=\"Puma\", contact_info=\"puma@company.com\", budget=900000)\nsponsor4 = Sponsor(name=\"Reebok\", contact_info=\"reebok@company.com\", budget=800000)\n\n# Sponsorship Test Data\nsponsorship1 = Sponsorship(sponsor_id=1, team_id=1, start_date=date(2023, 1, 1), end_date=date(2023, 12, 31), amount=500000)\nsponsorship2 = Sponsorship(sponsor_id=2, team_id=2, start_date=date(2023, 1, 1), end_date=date(2023, 12, 31), amount=600000)\nsponsorship3 = Sponsorship(sponsor_id=3, team_id=3, start_date=date(2023, 1, 1), end_date=date(2023, 12, 31), amount=700000)\nsponsorship4 = Sponsorship(sponsor_id=4, team_id=4, start_date=date(2023, 1, 1), end_date=date(2023, 12, 31), amount=800000)\n\n# Player Test Data\nplayer1 = Player(athlete_id=1, team_id=1, join_date=date(2023, 4, 1))\nplayer2 = Player(athlete_id=2, team_id=2, join_date=date(2023, 4, 2))\nplayer3 = Player(athlete_id=3, team_id=3, join_date=date(2023, 4, 3))\nplayer4 = Player(athlete_id=4, team_id=4, join_date=date(2023, 4, 4))\n\n# Coach Test Data\ncoach1 = Coach(first_name=\"Alex\", last_name=\"Ferguson\", birth_date=date(1975, 3, 12), team_id=1)\ncoach2 = Coach(first_name=\"Bill\", last_name=\"Jackson\", birth_date=date(1960, 1, 17), team_id=2)\ncoach3 = Coach(first_name=\"Pep\", last_name=\"Guardiola\", birth_date=date(1971, 2, 24), team_id=3)\ncoach4 = Coach(first_name=\"Jose\", last_name=\"Mourinho\", birth_date=date(1963, 7, 26), team_id=4)\n\n# Event Test Data\nevent1 = Event(name=\"Football World Final\", date=date(2023, 12, 25), location=\"Stadium X\", sport_id=1)\nevent2 = Event(name=\"Basketball World Series\", date=date(2023, 11, 15), location=\"Arena Y\", sport_id=2)\nevent3 = Event(name=\"Tennis Grand Slam\", date=date(2023, 12, 5), location=\"Court Z\", sport_id=3)\nevent4 = Event(name=\"Swimming Championship\", date=date(2023, 10, 20), location=\"Pool A\", sport_id=4)",
+    "name": "SportStatisticsTracker"
+}

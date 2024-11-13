@@ -1,0 +1,338 @@
+about:
+  date: November 13, 2024 17:56:26
+  recent_changes: works with modified safrs-react-admin
+  version: 0.0.0
+api_root: '{http_type}://{swagger_host}:{port}/{api}'
+authentication: '{system-default}'
+info:
+  number_relationships: 12
+  number_tables: 12
+info_toggle_checked: true
+resources:
+  Athlete:
+    attributes:
+    - label: ' first_name*'
+      name: first_name
+      required: true
+      search: true
+      sort: true
+    - name: last_name
+      required: true
+    - name: date_of_birth
+      type: DATE
+    - name: nationality
+    - name: id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - athlete_id
+      name: PerformanceList
+      resource: Performance
+    - direction: tomany
+      fks:
+      - athlete_id
+      name: PlayerList
+      resource: Player
+    - direction: tomany
+      fks:
+      - athlete_id
+      name: RegistrationList
+      resource: Registration
+    type: Athlete
+    user_key: first_name
+  Coach:
+    attributes:
+    - label: ' first_name*'
+      name: first_name
+      required: true
+      search: true
+      sort: true
+    - name: team_id
+    - name: last_name
+      required: true
+    - name: birth_date
+      type: DATE
+    - name: id
+    tab_groups:
+    - direction: toone
+      fks:
+      - team_id
+      name: team
+      resource: Team
+    type: Coach
+    user_key: first_name
+  Event:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: sport_id
+    - name: date
+      required: true
+      type: DATE
+    - name: location
+    - name: id
+    tab_groups:
+    - direction: toone
+      fks:
+      - sport_id
+      name: sport
+      resource: Sport
+    type: Event
+    user_key: name
+  League:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: description
+    - name: establishment_year
+    - name: id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - league_id
+      name: RegistrationList
+      resource: Registration
+    type: League
+    user_key: name
+  Match:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: sport_id
+    - name: date
+      required: true
+      type: DATE
+    - name: location
+    tab_groups:
+    - direction: tomany
+      fks:
+      - match_id
+      name: PerformanceList
+      resource: Performance
+    - direction: toone
+      fks:
+      - sport_id
+      name: sport
+      resource: Sport
+    type: Match
+    user_key: id
+  Performance:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: athlete_id
+    - name: match_id
+    - name: score
+    - name: assists
+    - name: penalties
+    - name: performance_date
+      type: DATE
+    tab_groups:
+    - direction: toone
+      fks:
+      - athlete_id
+      name: athlete
+      resource: Athlete
+    - direction: toone
+      fks:
+      - match_id
+      name: match
+      resource: Match
+    type: Performance
+    user_key: id
+  Player:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: athlete_id
+    - name: team_id
+    - name: join_date
+      type: DATE
+    tab_groups:
+    - direction: toone
+      fks:
+      - athlete_id
+      name: athlete
+      resource: Athlete
+    - direction: toone
+      fks:
+      - team_id
+      name: team
+      resource: Team
+    type: Player
+    user_key: id
+  Registration:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: athlete_id
+    - name: league_id
+    - name: registration_date
+      required: true
+      type: DATE
+    tab_groups:
+    - direction: toone
+      fks:
+      - athlete_id
+      name: athlete
+      resource: Athlete
+    - direction: toone
+      fks:
+      - league_id
+      name: league
+      resource: League
+    type: Registration
+    user_key: id
+  Sponsor:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: contact_info
+    - name: budget
+    - name: id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - sponsor_id
+      name: SponsorshipList
+      resource: Sponsorship
+    type: Sponsor
+    user_key: name
+  Sponsorship:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: sponsor_id
+    - name: team_id
+    - name: start_date
+      required: true
+      type: DATE
+    - name: end_date
+      type: DATE
+    - name: amount
+    tab_groups:
+    - direction: toone
+      fks:
+      - sponsor_id
+      name: sponsor
+      resource: Sponsor
+    - direction: toone
+      fks:
+      - team_id
+      name: team
+      resource: Team
+    type: Sponsorship
+    user_key: id
+  Sport:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: id
+    - name: equipment_needed
+    - name: team_based
+      type: Boolean
+    tab_groups:
+    - direction: tomany
+      fks:
+      - sport_id
+      name: EventList
+      resource: Event
+    - direction: tomany
+      fks:
+      - sport_id
+      name: MatchList
+      resource: Match
+    - direction: tomany
+      fks:
+      - sport_id
+      name: TeamList
+      resource: Team
+    type: Sport
+    user_key: name
+  Team:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: sport_id
+    - name: founding_date
+      type: DATE
+    - name: id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - team_id
+      name: CoachList
+      resource: Coach
+    - direction: tomany
+      fks:
+      - team_id
+      name: PlayerList
+      resource: Player
+    - direction: tomany
+      fks:
+      - team_id
+      name: SponsorshipList
+      resource: Sponsorship
+    - direction: toone
+      fks:
+      - sport_id
+      name: sport
+      resource: Sport
+    type: Team
+    user_key: name
+settings:
+  HomeJS: /admin-app/home.js
+  max_list_columns: 8
+  style_guide:
+    applicationLocales:
+    - en
+    - es
+    currency_symbol: $
+    currency_symbol_position: left
+    date_format: LL
+    decimal_max: '1000000000'
+    decimal_min: '0'
+    decimal_separator: .
+    detail_mode: tab
+    edit_on_mode: dblclick
+    exclude_listpicker: false
+    include_translation: 'false'
+    keycloak_client_id: alsclient
+    keycloak_realm: kcals
+    keycloak_url: http://localhost:8080
+    locale: en
+    max_decimal_digits: '4'
+    min_decimal_digits: '2'
+    new_mode: dialog
+    pick_style: list
+    row_height: small,
+    serviceType: OntimizeEE
+    startSessionPath: /auth/login
+    style: light
+    thousand_separator: ','
+    use_keycloak: 'false'

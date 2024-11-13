@@ -1,0 +1,111 @@
+// Copy this text, paste to https://dbdiagram.io/d
+// Or, https://databasediagram.com/app
+// Or, view in VSCode with extension: "DBML Live Preview"
+
+Table Athlete {
+    id INTEGER [primary key]
+    first_name VARCHAR 
+    last_name VARCHAR 
+    date_of_birth DATE 
+    nationality VARCHAR 
+    }
+
+Table Coach {
+    id INTEGER [primary key]
+    first_name VARCHAR 
+    last_name VARCHAR 
+    birth_date DATE 
+    team_id INTEGER 
+    }
+
+Table Team {
+    id INTEGER [primary key]
+    name VARCHAR 
+    sport_id INTEGER 
+    founding_date DATE 
+    }
+
+Table Event {
+    id INTEGER [primary key]
+    name VARCHAR 
+    date DATE 
+    location VARCHAR 
+    sport_id INTEGER 
+    }
+
+Table Sport {
+    id INTEGER [primary key]
+    name VARCHAR 
+    equipment_needed VARCHAR 
+    team_based BOOLEAN 
+    }
+
+Table League {
+    id INTEGER [primary key]
+    name VARCHAR 
+    description VARCHAR 
+    establishment_year INTEGER 
+    }
+
+Table Match {
+    id INTEGER [primary key]
+    date DATE 
+    location VARCHAR 
+    sport_id INTEGER 
+    }
+
+Table Performance {
+    id INTEGER [primary key]
+    athlete_id INTEGER 
+    match_id INTEGER 
+    score INTEGER 
+    assists INTEGER 
+    penalties INTEGER 
+    performance_date DATE 
+    }
+
+Table Player {
+    id INTEGER [primary key]
+    athlete_id INTEGER 
+    team_id INTEGER 
+    join_date DATE 
+    }
+
+Table Registration {
+    id INTEGER [primary key]
+    athlete_id INTEGER 
+    league_id INTEGER 
+    registration_date DATE 
+    }
+
+Table Sponsor {
+    id INTEGER [primary key]
+    name VARCHAR 
+    contact_info VARCHAR 
+    budget INTEGER 
+    }
+
+Table Sponsorship {
+    id INTEGER [primary key]
+    sponsor_id INTEGER 
+    team_id INTEGER 
+    start_date DATE 
+    end_date DATE 
+    amount INTEGER 
+    }
+
+
+
+// Relationships
+    Ref: Coach.(team_id) < Team.(id)
+    Ref: Team.(sport_id) < Sport.(id)
+    Ref: Event.(sport_id) < Sport.(id)
+    Ref: Match.(sport_id) < Sport.(id)
+    Ref: Performance.(athlete_id) < Athlete.(id)
+    Ref: Performance.(match_id) < Match.(id)
+    Ref: Player.(athlete_id) < Athlete.(id)
+    Ref: Player.(team_id) < Team.(id)
+    Ref: Registration.(athlete_id) < Athlete.(id)
+    Ref: Registration.(league_id) < League.(id)
+    Ref: Sponsorship.(sponsor_id) < Sponsor.(id)
+    Ref: Sponsorship.(team_id) < Team.(id)
